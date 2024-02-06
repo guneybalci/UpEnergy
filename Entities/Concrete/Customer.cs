@@ -8,29 +8,27 @@ using System.Transactions;
 
 namespace Entities.Concrete;
 
-// Müşteri
 public class Customer
 {
     public int Id { get; set; }
 
-    // Müşteri Adı
     public string FirstName { get; set; }
 
-    // Müşteri Soyadı
     public string LastName { get; set; }
 
-    // Müşteri TC Kimlik No
     public string TCKN { get; set; } 
 
-    // Müşteri Adres
     public string Address { get; set; }
 
-
+    public int? StatusCode { get; set; }
+    public string Status { get; set; }
 
 
 
     // Bir müşterinin - birden'den çok Arac'ı olabilir. (One-To-Many)
     public ICollection<Car> Cars { get; set; }
+
+    public ICollection<Balance> Balances { get; set; }
 
 
 

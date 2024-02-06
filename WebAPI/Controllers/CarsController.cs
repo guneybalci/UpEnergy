@@ -44,9 +44,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getlistbycustomerid")]
-        public IActionResult GetListByCustomerId(int carId)
+        public IActionResult GetListByCustomerId(int customerId)
         {
-            var result = _carService.GetListByCustomerId(carId);
+            var result = _carService.GetListByCustomerId(customerId);
 
             if (result.Success)
             {
@@ -60,15 +60,19 @@ namespace WebAPI.Controllers
         public IActionResult Add(Car car)
         {
             var result = _carService.Add(car);
-
             if (result.Success)
             {
-                return Ok(result.Message);
+                //return Ok(result.Data.Select(x=> new Order
+                //{
+                //    Id = x.Id,
+                //    OrderNo= x.OrderNo,
+                //    Status = x.Status
+                //}));
+
+                return Ok(result);
             }
-            else
-            {
-                return BadRequest(result.Message);
-            }
+
+            return BadRequest(result.Message);
         }
 
         [HttpPost("update")]

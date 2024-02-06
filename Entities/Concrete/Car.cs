@@ -8,19 +8,17 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete;
 
-// Araç
 public class Car
 {
     public int Id { get; set; }
 
-    // Araç Tipi (Binek, Ticari, Motorsiklet)
+    public string Plaque { get; set; }
+
+    public int? CarCode { get; set; }
     public string CarType { get; set; }
 
-    // Yakıt Tipi (Benzin, Dizel, LPG, Elektrik)
+    public int? FuelOilCode { get; set; }
     public string FuelOilType { get; set; }
-
-
-
 
 
     // Her Araç İçin Bir Müşteri (One-To-Many)
@@ -29,7 +27,7 @@ public class Car
     public Customer Customer { get; set; }
 
 
-
+    public ICollection<FuelOil> FuelOils { get; set; }
 
 
     //// Bir araç birden'den çok Akaryakıt'ı olabilir. (One-To-Many)

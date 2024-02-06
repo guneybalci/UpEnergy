@@ -4,6 +4,7 @@ using DataAccess.Concrete.EntityFramework.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(UpEnergyContext))]
-    partial class UpEnergyContextModelSnapshot : ModelSnapshot
+    [Migration("20240206180452_upenergyv4")]
+    partial class upenergyv4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,18 +34,10 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BalanceCode")
-                        .HasMaxLength(50)
-                        .HasColumnType("int")
-                        .HasColumnName("BalanceCode");
-
                     b.Property<string>("Credit")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("Credit");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
 
                     b.Property<string>("DownPayment")
                         .HasMaxLength(50)
@@ -55,8 +50,6 @@ namespace DataAccess.Migrations
                         .HasColumnName("Gift");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
 
                     b.ToTable("Balances");
                 });
@@ -158,9 +151,6 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CarId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Plaque")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
@@ -179,20 +169,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarId");
-
                     b.ToTable("FuelOils");
-                });
-
-            modelBuilder.Entity("Entities.Concrete.Balance", b =>
-                {
-                    b.HasOne("Entities.Concrete.Customer", "Customer")
-                        .WithMany("Balances")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Car", b =>
@@ -206,26 +183,8 @@ namespace DataAccess.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("Entities.Concrete.FuelOil", b =>
-                {
-                    b.HasOne("Entities.Concrete.Car", "Car")
-                        .WithMany("FuelOils")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Car");
-                });
-
-            modelBuilder.Entity("Entities.Concrete.Car", b =>
-                {
-                    b.Navigation("FuelOils");
-                });
-
             modelBuilder.Entity("Entities.Concrete.Customer", b =>
                 {
-                    b.Navigation("Balances");
-
                     b.Navigation("Cars");
                 });
 #pragma warning restore 612, 618

@@ -1,11 +1,14 @@
 ﻿using Business.Abstract;
 using Business.Contants;
+using Business.Enums;
+using Core.Extensions;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,7 +34,7 @@ public class CustomerManager : ICustomerService
 
             return new ErrorDataResult<Customer>(_customerDal.Get(c => c.Id != customerId));
         }
-        
+
     }
 
     public IDataResult<List<Customer>> GetAll()
@@ -39,12 +42,35 @@ public class CustomerManager : ICustomerService
         return new SuccessDataResult<List<Customer>>(_customerDal.GetAll().ToList());
     }
 
-    public IResult Add(Customer customer)
+    IDataResult<Customer> ICustomerService.Add(Customer customer)
     {
         // Business Code - İş Kuralı Örn daha önce eklenen ürün eklenmesin ya da validasyon
+
+        string enumDescription = "";
+
+        switch (customer.StatusCode)
+        {
+            case 0:
+                CustomerStatus OnayBekliyor = CustomerStatus.OnayBekliyor;
+                enumDescription = OnayBekliyor.GetEnumDescription();
+                break;
+            case 1:
+                CustomerStatus Onaylandi = CustomerStatus.Onaylandi;
+                enumDescription = Onaylandi.GetEnumDescription();
+                break;
+            case 2:
+                CustomerStatus Reddedildi = CustomerStatus.Reddedildi;
+                enumDescription = Reddedildi.GetEnumDescription();
+                break;
+            default:
+                enumDescription = Messages.OnayBekliyor;
+                break;
+        }
+
+
+        customer.Status = enumDescription;
         _customerDal.Add(customer);
-        return new SuccessResult(Messages.CustomerAdded); 
-          
+        return new SuccessDataResult<Customer>(customer, true, Messages.CustomerAdded);
     }
 
     public IResult Update(Customer customer)
@@ -59,5 +85,5 @@ public class CustomerManager : ICustomerService
         return new SuccessResult(Messages.CustomerDeleted);
     }
 
-   
+
 }

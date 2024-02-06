@@ -12,7 +12,9 @@ public interface IBalanceService
 {
     IDataResult<Balance> GetById(int balanceId);
     IDataResult<List<Balance>> GetAll();
-    IResult Add(Balance balance);
+    IDataResult<Balance> Add(Balance balance);
     IResult Delete(Balance balance);
     IResult Update(Balance balance);
+
+    IDataResult<List<Balance>> GetListByCustomerId(int customerId);
 }

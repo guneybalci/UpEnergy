@@ -48,30 +48,31 @@ namespace WebAPI.Controllers
         public IActionResult Add(Customer customer)
         {
             var result = _customerService.Add(customer);
-
             if (result.Success)
             {
-                return Ok(result.Message);
+                //return Ok(result.Data.Select(x=> new Order
+                //{
+                //    Id = x.Id,
+                //    OrderNo= x.OrderNo,
+                //    Status = x.Status
+                //}));
+
+                return Ok(result);
             }
-            else
-            {
-                return BadRequest(result.Message);
-            }
+
+            return BadRequest(result.Message);
         }
 
         [HttpPost("update")]
         public IActionResult Update(Customer customer)
         {
             var result = _customerService.Update(customer);
-
             if (result.Success)
             {
                 return Ok(result.Message);
             }
-            else
-            {
-                return BadRequest(result.Message);
-            }
+
+            return BadRequest(result.Message);
         }
 
         [HttpPost("delete")]

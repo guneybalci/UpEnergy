@@ -7,29 +7,22 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete;
 
-// Akaryakıt
 public class FuelOil
 {
     public int Id { get; set; }
 
-    // Plaka
     public string Plaque { get; set; }
 
-    // İşlem Tutarı
-    public decimal TransactionAmount { get; set; }
+    public decimal? TransactionAmount { get; set; }
 
-    // İşlem Tarihi
     public DateTime? TransactionDate { get; set; }
 
 
 
+    public int CarId { get; set; }
+
+    public Car Car { get; set; }
 
 
 
-
-
-    //// Her Akaryakıt İçin Bir Araç (One-To-Many)
-    //public int CarId { get; set; }
-
-    //public virtual Car Car { get; set; }
 }

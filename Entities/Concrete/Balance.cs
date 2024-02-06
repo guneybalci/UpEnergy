@@ -7,21 +7,20 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete;
 
-// Bakiye
 public class Balance
 {
     public int Id { get; set; }
 
-    // Hediye
+    public int? BalanceCode { get; set; }
+
     public string Gift { get; set; }
 
-    // Kredi
     public string Credit { get; set; }
 
-    // Ön Ödeme
     public string DownPayment { get; set; }
 
-
+    public int CustomerId { get; set; }
+    public Customer Customer { get; set; }
     //// Bir Müşteri İçin - Bir Bakiye Tanımlanması (One-To-One)
     //public int CustomerId { get; set; }
     //public Customer Customer { get; set; }

@@ -8,9 +8,18 @@ namespace Business.Contants
 {
     public class Messages
     {
-        public static string CustomerWaitingApproval = "Müşteri Onay Bekliyor";
-        public static string CustomerApproved = "Müşteri Onaylandı";
-        public static string CustomerRejected = "Müşteri Reddedildi";
+        public static string OnayBekliyor = "Onay Bekliyor";
+        public static string Onaylandi = "Onaylandı";
+        public static string Reddedildi = "Reddedildi";
+
+        public static string CustomerStatusRejected = "Müşteri Statüsü Reddedildi";
+        public static string CustomerNotRegistered = "Müşteri Kayıtlı Değil";
+
+        public static string CustomerApprovedForBalance = "Onaylanan Kullanıcılar Bakiye Girişi Yapabilir";
+        public static string BalanceTypeUndefined = "Ödeme Tipi Bilinmiyor";
+
+        public static string PlaqueNotEquals = "Plaka Eşleşmiyor";
+        public static string CarNotRegistered = "Araç Kayıtlı Değil";
 
         public static string CustomerAdded = "Müşteri Eklendi";
         public static string CustomerDeleted = "Müşteri Silindi";
@@ -28,6 +37,14 @@ namespace Business.Contants
         public static string BalanceDeleted = "Ödeme Tipi Silindi";
         public static string BalanceUpdated = "Ödeme Tipi Güncellendi";
 
+        public static string CarTypeZero = "Binek";
+        public static string CarTypeOne = "Ticari";
+        public static string CarTypeTwo = "Motorsiklet";
+
+        public static string FuelOilTypeZero = "Benzin";
+        public static string FuelOilTypeOne = "Dizel";
+        public static string FuelOilTypeTwo = "LPG";
+        public static string FuelOilTypeThree = "Elektrik";
 
     }
 }

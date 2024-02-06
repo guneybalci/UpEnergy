@@ -41,19 +41,36 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
         }
 
+        [HttpGet("getlistbycustomerid")]
+        public IActionResult GetListByCustomerId(int customerId)
+        {
+            var result = _balanceService.GetListByCustomerId(customerId);
+
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+
+            return BadRequest(result.Message);
+        }
+
         [HttpPost("add")]
         public IActionResult Add(Balance balance)
         {
             var result = _balanceService.Add(balance);
-
             if (result.Success)
             {
-                return Ok(result.Message);
+                //return Ok(result.Data.Select(x=> new Order
+                //{
+                //    Id = x.Id,
+                //    OrderNo= x.OrderNo,
+                //    Status = x.Status
+                //}));
+
+                return Ok(result);
             }
-            else
-            {
-                return BadRequest(result.Message);
-            }
+
+            return BadRequest(result.Message);
         }
 
         [HttpPost("update")]

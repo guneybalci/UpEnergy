@@ -12,7 +12,7 @@ public interface IFuelOilService
 {
     IDataResult<FuelOil> GetById(int fuelOilId);
     IDataResult<List<FuelOil>> GetAll();
-    IResult Add(FuelOil fuelOil);
+    IDataResult<FuelOil> Add(FuelOil fuelOil);
     IResult Delete(FuelOil fuelOil);
     IResult Update(FuelOil fuelOil);
 }

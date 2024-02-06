@@ -13,7 +13,7 @@ public interface ICustomerService
     //Customer Get(Customer customer);
     IDataResult<Customer> GetById(int customerId);
     IDataResult<List<Customer>> GetAll();
-    IResult Add(Customer customer);
+    IDataResult<Customer> Add(Customer customer);
     IResult Delete(Customer customer);
     IResult Update(Customer customer);
 
