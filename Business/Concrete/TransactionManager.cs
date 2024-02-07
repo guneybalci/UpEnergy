@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Core.Aspects.Autofac.Logging;
+using Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -20,17 +22,19 @@ public class TransactionManager : ITransactionService
         _customerDal = customerDal;
     }
 
-
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IDataResult<Transaction> GetById(int transactionId)
     {
         return new SuccessDataResult<Transaction>(_transactionDal.Get(t => t.Id == transactionId));
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IDataResult<List<Transaction>> GetAll()
     {
         return new SuccessDataResult<List<Transaction>>(_transactionDal.GetAll().ToList());
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IResult Add(Transaction transaction)
     {
         try

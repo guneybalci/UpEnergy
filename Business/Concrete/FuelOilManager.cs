@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Contants;
+using Core.Aspects.Autofac.Logging;
+using Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -22,6 +24,8 @@ namespace Business.Concrete
             _carService = carService;
 
         }
+
+        [LogAspect(typeof(FileLogger))] // DatabaseLooger
         public IDataResult<FuelOil> GetById(int fuelOilId)
         {
             try
@@ -34,11 +38,13 @@ namespace Business.Concrete
             }
         }
 
+        [LogAspect(typeof(FileLogger))] // DatabaseLooger
         public IDataResult<List<FuelOil>> GetAll()
         {
            return new SuccessDataResult<List<FuelOil>>(_fuelOilDal.GetAll().ToList());
         }
 
+        [LogAspect(typeof(FileLogger))] // DatabaseLooger
         IDataResult<FuelOil> IFuelOilService.Add(FuelOil fuelOil)
         {
             IResult result = CheckCarExists(fuelOil);
@@ -56,18 +62,21 @@ namespace Business.Concrete
 
         }
 
+        [LogAspect(typeof(FileLogger))] // DatabaseLooger
         public IResult Update(FuelOil fuelOil)
         {
             _fuelOilDal.Update(fuelOil);
             return new SuccessResult(Messages.FuelOilUpdated);
         }
 
+        [LogAspect(typeof(FileLogger))] // DatabaseLooger
         public IResult Delete(FuelOil fuelOil)
         {
             _fuelOilDal.Delete(fuelOil);
             return new SuccessResult(Messages.FuelOilDeleted);
         }
 
+        [LogAspect(typeof(FileLogger))] // DatabaseLooger
         private IResult CheckCarExists(FuelOil fuelOil)
         {
             var result = _carService.GetAll().Data.Where(x=>x.Plaque == fuelOil.Plaque).ToList().FirstOrDefault();

@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Contants;
 using Business.Enums;
+using Core.Aspects.Autofac.Logging;
+using Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
 using Core.Extensions;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -28,7 +30,7 @@ public class CustomerManager : ICustomerService
 
     }
 
-
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IDataResult<Customer> GetById(int customerId)
     {
         try
@@ -43,16 +45,19 @@ public class CustomerManager : ICustomerService
 
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IDataResult<List<Customer>> GetAll()
     {
         return new SuccessDataResult<List<Customer>>(_customerDal.GetAll().ToList());
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IDataResult<List<Customer>> GetDetailCustomers()
     {
         return new SuccessDataResult<List<Customer>>(_customerDal.GetDetailCustomers());
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     IDataResult<Customer> ICustomerService.Add(Customer customer)
     {
         // Business Code - İş Kuralı Örn daha önce eklenen ürün eklenmesin ya da validasyon
@@ -85,6 +90,7 @@ public class CustomerManager : ICustomerService
         return new SuccessDataResult<Customer>(customer, true, Messages.CustomerAdded);
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IResult Update(Customer customer)
     {
   
@@ -93,6 +99,7 @@ public class CustomerManager : ICustomerService
         return new SuccessResult(Messages.CustomerUpdated);
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IResult Delete(Customer customer)
     {
         _customerDal.Delete(customer);
@@ -100,6 +107,7 @@ public class CustomerManager : ICustomerService
         return new SuccessResult(Messages.CustomerDeleted);
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     private void AddTransaction(Customer customer)
     {
         Transaction transaction = new Transaction()

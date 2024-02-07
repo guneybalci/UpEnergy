@@ -228,6 +228,32 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
              .WithMany(c => c.Transactions)
              .HasForeignKey(t => t.CustomerID);
 
+            /*-----------------------------------------------------------------------------------------------*/
+
+            // Logs
+            modelBuilder.Entity<Log>()
+             .Property(t => t.Id)
+             .HasColumnName("Id")
+             .UseIdentityColumn(1, 1);
+
+            modelBuilder.Entity<Log>()
+              .Property(b => b.Detail)
+              .HasColumnName("Detail")
+              .HasColumnType("nvarchar(max)")
+              .IsRequired(false);
+
+            modelBuilder.Entity<Log>()
+              .Property(t => t.Date)
+              .HasColumnName("Date")
+              .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<Log>()
+              .Property(b => b.Audit)
+              .HasColumnName("Audit")
+              .HasMaxLength(50)
+              .IsRequired(false);
+
+          
         }
 
         public DbSet<Customer> Customers { get; set; }
@@ -235,6 +261,7 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
         public DbSet<FuelOil> FuelOils { get; set; }
         public DbSet<Balance> Balances { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Log> Logs { get; set; }
 
     }
 }

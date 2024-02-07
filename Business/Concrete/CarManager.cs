@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Contants;
 using Business.Enums;
+using Core.Aspects.Autofac.Logging;
+using Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
 using Core.Extensions;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -25,6 +27,7 @@ public class CarManager : ICarService
         _customerService = customerService;
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IDataResult<Car> GetById(int carId)
     {
         try
@@ -38,16 +41,19 @@ public class CarManager : ICarService
         }
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IDataResult<List<Car>> GetAll()
     {
         return new SuccessDataResult<List<Car>>(_carDal.GetAll().ToList());
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IDataResult<List<Car>> GetListByCustomerId(int customerId)
     {
         return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.CustomerId == customerId).ToList());
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     IDataResult<Car> ICarService.Add(Car car)
     {
         // Business Code - İş Kuralı Örn daha önce eklenen ürün eklenmesin ya da validasyon
@@ -112,17 +118,20 @@ public class CarManager : ICarService
 
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IResult Update(Car car)
     {
         _carDal.Update(car);
         return new SuccessResult(Messages.CarUpdated);
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IResult Delete(Car car)
     {
         _carDal.Delete(car);
         return new SuccessResult(Messages.CarDeleted);
     }
+
 
     private IResult CheckCustomerStatusExists(Car car)
     {

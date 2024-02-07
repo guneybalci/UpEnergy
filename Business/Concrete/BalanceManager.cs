@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Contants;
 using Business.Enums;
+using Core.Aspects.Autofac.Logging;
+using Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
 using Core.Extensions;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -30,6 +32,7 @@ public class BalanceManager : IBalanceService
         _customerDal = customerDal;
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IDataResult<Balance> GetById(int balanceId)
     {
         try
@@ -43,16 +46,19 @@ public class BalanceManager : IBalanceService
         }
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IDataResult<List<Balance>> GetAll()
     {
         return new SuccessDataResult<List<Balance>>(_balanceDal.GetAll().ToList());
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IDataResult<List<Balance>> GetListByCustomerId(int customerId)
     {
         return new SuccessDataResult<List<Balance>>(_balanceDal.GetAll(c => c.CustomerId == customerId).ToList());
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     IDataResult<Balance> IBalanceService.Add(Balance balance)
     {
         IResult result = CheckCustomerStatusExists(balance);
@@ -98,17 +104,20 @@ public class BalanceManager : IBalanceService
 
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IResult Update(Balance balance)
     {
         _balanceDal.Update(balance);
         return new SuccessResult(Messages.BalanceUpdated);
     }
 
+    [LogAspect(typeof(FileLogger))] // DatabaseLooger
     public IResult Delete(Balance balance)
     {
         _balanceDal.Delete(balance);
         return new SuccessResult(Messages.BalanceDeleted);
     }
+
 
     private IResult CheckCustomerStatusExists(Balance balance)
     {
