@@ -27,6 +27,9 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfBalanceDal>().As<IBalanceDal>().SingleInstance();
             builder.RegisterType<BalanceManager>().As<IBalanceService>().SingleInstance();
 
+            builder.RegisterType<EfTransactionDal>().As<ITransactionDal>().SingleInstance();
+            builder.RegisterType<TransactionManager>().As<ITransactionService>().SingleInstance();
+
         }
     }
 }

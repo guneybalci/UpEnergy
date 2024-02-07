@@ -30,7 +30,7 @@ public class Customer
 
     public ICollection<Balance> Balances { get; set; }
 
-
+    public ICollection<Transaction> Transactions { get; set; }
 
 
     //// Bir Müşteri - Bir Bakiye Tanımlanması Yapabilir. (One-To-One)

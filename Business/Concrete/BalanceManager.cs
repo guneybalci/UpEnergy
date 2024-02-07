@@ -19,10 +19,15 @@ public class BalanceManager : IBalanceService
 {
     IBalanceDal _balanceDal;
     ICustomerService _customerService;
-    public BalanceManager(IBalanceDal balanceDal, ICustomerService customerService)
+    ICustomerDal _customerDal;
+    IFuelOilDal _fuelOilDal;
+
+    public BalanceManager(IBalanceDal balanceDal, ICustomerService customerService, IFuelOilDal fuelOilDal, ICustomerDal customerDal)
     {
         _balanceDal = balanceDal;
         _customerService = customerService;
+        _fuelOilDal = fuelOilDal;
+        _customerDal = customerDal;
     }
 
     public IDataResult<Balance> GetById(int balanceId)
@@ -51,6 +56,11 @@ public class BalanceManager : IBalanceService
     IDataResult<Balance> IBalanceService.Add(Balance balance)
     {
         IResult result = CheckCustomerStatusExists(balance);
+
+
+        Customer c = _customerDal.Get(x => x.Id == balance.CustomerId);
+
+
 
         if (result.Success)
         {

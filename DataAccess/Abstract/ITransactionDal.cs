@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract;
 
-// DB üzerinden DML & DDL kodlarını yazabiliriz.
-public interface ICustomerDal : IEntityRepository<Customer>
+public interface ITransactionDal : IEntityRepository<Transaction>
 {
-    List<Customer> GetDetailCustomers();
 }

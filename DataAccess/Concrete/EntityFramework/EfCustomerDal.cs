@@ -11,9 +11,30 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework;
 
-public class EfCustomerDal : EfEntityRepositoryBase<Customer,UpEnergyContext>, ICustomerDal
+public class EfCustomerDal : EfEntityRepositoryBase<Customer, UpEnergyContext>, ICustomerDal
 {
+    public List<Customer> GetDetailCustomers()
+    {
+        using (var context = new UpEnergyContext()) {
 
+            var result = from cstmr in context.Customers
+                         join cr in context.Cars
+                         on cstmr.Id equals cr.CustomerId
+                         select new Customer
+                         {
+                             Id = cstmr.Id,
+                             FirstName = cstmr.FirstName,
+                             LastName = cstmr.LastName,
+                             TCKN = cstmr.TCKN,
+                             Address = cstmr.Address,
+                             StatusCode = cstmr.StatusCode,
+                             Status = cstmr.Status,
+                             Cars = cstmr.Cars,
+                             Balances = cstmr.Balances,
+                             Transactions = cstmr.Transactions
+                         };
 
-
+            return result.ToList();
+        }
+    }
 }

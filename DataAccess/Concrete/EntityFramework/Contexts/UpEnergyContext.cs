@@ -190,12 +190,51 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
               .HasForeignKey(o => o.CustomerId)
               .OnDelete(DeleteBehavior.Cascade);
 
+
+
+            /*-----------------------------------------------------------------------------------------------*/
+
+
+
+
+            // Transaction
+
+            modelBuilder.Entity<Transaction>()
+             .Property(t => t.Id)
+             .HasColumnName("Id")
+             .UseIdentityColumn(1, 1);
+
+
+            modelBuilder.Entity<Transaction>()
+             .Property(t => t.TransactionNo)
+             .HasColumnName("TransactionNo")
+             .HasDefaultValue(10000);
+
+
+            modelBuilder.Entity<Transaction>()
+             .Property(t => t.TransactionDate)
+             .HasColumnName("TransactionDate")
+             .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<Transaction>()
+             .Property(t => t.IsSuccess)
+             .HasColumnName("isSuccess")
+             .ValueGeneratedNever()
+             .HasDefaultValue(true);
+
+
+            modelBuilder.Entity<Transaction>()
+             .HasOne<Customer>(t => t.Customer)
+             .WithMany(c => c.Transactions)
+             .HasForeignKey(t => t.CustomerID);
+
         }
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<FuelOil> FuelOils { get; set; }
         public DbSet<Balance> Balances { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
     }
 }

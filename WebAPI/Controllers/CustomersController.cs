@@ -44,6 +44,20 @@ namespace WebAPI.Controllers
 
         }
 
+        [HttpGet("getdetailcustomers")]
+        public IActionResult GetDetailCustomers()
+        {
+            var result = _customerService.GetDetailCustomers();
+
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+
+            return BadRequest(result.Message);
+
+        }
+
         [HttpPost("add")]
         public IActionResult Add(Customer customer)
         {

@@ -4,6 +4,7 @@ using Business.Enums;
 using Core.Extensions;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,14 @@ namespace Business.Concrete;
 public class CustomerManager : ICustomerService
 {
     ICustomerDal _customerDal;
-    public CustomerManager(ICustomerDal customerDal)
+    private ITransactionService _transactionService;
+    private ITransactionDal _transactionDal;
+    public CustomerManager(ICustomerDal customerDal, ITransactionService transactionService, ITransactionDal transactionDal)
     {
         _customerDal = customerDal;
+        _transactionService = transactionService;
+        _transactionDal = transactionDal;
+
     }
 
 
@@ -40,6 +46,11 @@ public class CustomerManager : ICustomerService
     public IDataResult<List<Customer>> GetAll()
     {
         return new SuccessDataResult<List<Customer>>(_customerDal.GetAll().ToList());
+    }
+
+    public IDataResult<List<Customer>> GetDetailCustomers()
+    {
+        return new SuccessDataResult<List<Customer>>(_customerDal.GetDetailCustomers());
     }
 
     IDataResult<Customer> ICustomerService.Add(Customer customer)
@@ -67,23 +78,36 @@ public class CustomerManager : ICustomerService
                 break;
         }
 
-
+   
         customer.Status = enumDescription;
         _customerDal.Add(customer);
+        AddTransaction(customer);
         return new SuccessDataResult<Customer>(customer, true, Messages.CustomerAdded);
     }
 
     public IResult Update(Customer customer)
     {
+  
         _customerDal.Update(customer);
+        AddTransaction(customer);
         return new SuccessResult(Messages.CustomerUpdated);
     }
 
     public IResult Delete(Customer customer)
     {
         _customerDal.Delete(customer);
+        AddTransaction(customer);
         return new SuccessResult(Messages.CustomerDeleted);
     }
 
+    private void AddTransaction(Customer customer)
+    {
+        Transaction transaction = new Transaction()
+        {
+            Customer = customer,
+            CustomerID = _customerDal.GetAll().Select(x=>x.Id).Last(),
+        };
 
+        _transactionService.Add(transaction);
+    }
 }
